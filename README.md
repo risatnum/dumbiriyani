@@ -50,7 +50,7 @@ That's it! The script will automatically:
 
 ### REST Endpoints
 | Method | Route | Purpose | Example Payload |
-|--------|-------|---------|---------   --------|
+|--------|-------|---------|--------------------|
 | POST | `/api/simulator/push` | Bulk state update from simulator | `{ "devices": [ { "id": "...", "type": "light", "room": "...", "status": "on", "power_watts": 15, "last_changed": "..." } ] }` |
 | GET | `/api/mode` | Get current mode | - |
 | POST | `/api/mode` | Change mode (automatic/manual) | `{ "mode": "manual" }` |

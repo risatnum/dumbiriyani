@@ -6,7 +6,7 @@ setlocal enabledelayedexpansion
 :: ==========================================
 set REPO_URL=https://github.com/risatnum/Techathon2026-TeamDambiriyani.git
 set PROJECT_DIR=Techathon2026-TeamDambiriyani
-set ENV_GIST_URL=https://gist.githubusercontent.com/risatnum/0cfb7563128a8f9bfc4f4b3781f02197/raw/6c197a10ef14e69d768c747a9a016148340a8563/.env
+set ENV_DOWNLOAD_URL=https://drive.google.com/uc?export=download^&id=1LTXDUaTwGxWuP0Hmf1bPSIoDOX3TuBWj
 set DISCORD_INVITE_URL=https://discord.com/oauth2/authorize?client_id=1522626157948964874&permissions=8&scope=bot%20applications.commands
 
 echo.
@@ -43,12 +43,23 @@ cd "%PROJECT_DIR%"
 echo.
 if not exist "bot\.env" (
     echo  [2/6] Downloading environment config for Discord Bot...
-    powershell -Command "Invoke-WebRequest -Uri '%ENV_GIST_URL%' -OutFile 'bot\.env'"
+    powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -Uri '%ENV_DOWNLOAD_URL%' -OutFile 'bot\.env' -UseBasicParsing -MaximumRedirection 5"
     if errorlevel 1 (
         echo  [WARNING] Could not download .env file. The Discord Bot may not work.
-        echo  You can manually place a .env file in the bot\ folder later.
+        echo  Please manually download it from Google Drive and place it in the bot\ folder.
+        echo  Link: https://drive.google.com/file/d/1LTXDUaTwGxWuP0Hmf1bPSIoDOX3TuBWj/view
     ) else (
-        echo  Environment config downloaded and placed in bot\ folder.
+        :: Validate the downloaded file is not an HTML page (Google Drive error page)
+        powershell -Command "if ((Get-Content 'bot\.env' -Raw) -match '^\s*<') { Write-Host 'INVALID'; exit 1 } else { Write-Host 'VALID'; exit 0 }"
+        if errorlevel 1 (
+            echo  [WARNING] Downloaded file appears to be invalid (HTML instead of .env).
+            del "bot\.env" 2>nul
+            echo  Please manually download the .env file from Google Drive:
+            echo  https://drive.google.com/file/d/1LTXDUaTwGxWuP0Hmf1bPSIoDOX3TuBWj/view
+            echo  Then place it in the bot\ folder.
+        ) else (
+            echo  Environment config downloaded and placed in bot\ folder.
+        )
     )
 ) else (
     echo  [2/6] Bot environment config already exists. Skipping.
