@@ -4,7 +4,7 @@ setlocal
 :: ==========================================
 :: Setup your GitHub repository URL here
 :: ==========================================
-set REPO_URL=https://github.com/yourusername/dumbiriyani.git
+set REPO_URL=https://github.com/risatnum/dumbiriyani.git
 set PROJECT_DIR=dumbiriyani
 
 echo ==========================================
