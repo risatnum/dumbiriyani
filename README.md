@@ -11,6 +11,7 @@ A real-time office monitoring system managing 15 simulated devices across 3 room
 - **Frontend Dashboard**: Subscribes to backend updates via Socket.IO for real-time changes without polling. Also issues REST commands when operating in manual mode.
 - **Discord Bot**: Pulls real live data from the REST API to answer queries using Gemini AI for natural, conversational responses.
 
+- Wokwi Link: `https://wokwi.com/projects/468551025532354561`
 ---
 
 ## Quick Start (One Click Setup)
@@ -34,6 +35,7 @@ That's it! The script will automatically:
 - Launch all 4 services (Backend, Simulator, Frontend, Discord Bot)
 - Open the live dashboard in your default browser at `http://localhost:5173`
 - It might take a few moments to install and run everything, please be patient and dont cut any window in the mean time.
+- If discord bot is not working invite manually - `https://discord.com/oauth2/authorize?client_id=1522626157948964874&permissions=8&scope=bot%%20applications.commands`
 
 > **Running it again?** Just double-click the same file. It will detect everything is already set up and skip straight to launching the services.
 
