@@ -16,6 +16,120 @@ echo  =====================================================
 echo.
 
 :: -----------------------------------------------
+:: 0. Check Prerequisites (Git, Python, Node.js)
+:: -----------------------------------------------
+echo  [0/6] Checking prerequisites...
+echo.
+set MISSING=0
+
+:: --- Check Git ---
+where git >nul 2>nul
+if errorlevel 1 (
+    echo  [!] Git is NOT installed.
+    set MISSING=1
+    set NEED_GIT=1
+) else (
+    for /f "tokens=*" %%v in ('git --version') do echo  [OK] %%v
+)
+
+:: --- Check Python ---
+where python >nul 2>nul
+if errorlevel 1 (
+    echo  [!] Python is NOT installed.
+    set MISSING=1
+    set NEED_PYTHON=1
+) else (
+    for /f "tokens=*" %%v in ('python --version 2^>^&1') do echo  [OK] %%v
+)
+
+:: --- Check Node.js ---
+where node >nul 2>nul
+if errorlevel 1 (
+    echo  [!] Node.js is NOT installed.
+    set MISSING=1
+    set NEED_NODE=1
+) else (
+    for /f "tokens=*" %%v in ('node --version') do echo  [OK] Node.js %%v
+)
+
+:: --- If anything is missing, offer to install ---
+if !MISSING!==1 (
+    echo.
+    echo  -------------------------------------------------
+    echo   Some required tools are missing.
+    echo   This script can install them for you using winget
+    echo   (Windows Package Manager).
+    echo  -------------------------------------------------
+    echo.
+    set /p INSTALL_CHOICE="  Would you like to install the missing tools? (Y/N): "
+
+    if /i "!INSTALL_CHOICE!"=="y" (
+        if defined NEED_GIT (
+            echo.
+            echo  Installing Git...
+            winget install --id Git.Git -e --accept-source-agreements --accept-package-agreements
+            if errorlevel 1 (
+                echo  [ERROR] Failed to install Git. Please install manually: https://git-scm.com/
+                pause
+                exit /b 1
+            )
+            echo  Git installed successfully!
+        )
+
+        if defined NEED_PYTHON (
+            echo.
+            echo  Installing Python...
+            winget install --id Python.Python.3.12 -e --accept-source-agreements --accept-package-agreements
+            if errorlevel 1 (
+                echo  [ERROR] Failed to install Python. Please install manually: https://www.python.org/
+                pause
+                exit /b 1
+            )
+            echo  Python installed successfully!
+        )
+
+        if defined NEED_NODE (
+            echo.
+            echo  Installing Node.js LTS...
+            winget install --id OpenJS.NodeJS.LTS -e --accept-source-agreements --accept-package-agreements
+            if errorlevel 1 (
+                echo  [ERROR] Failed to install Node.js. Please install manually: https://nodejs.org/
+                pause
+                exit /b 1
+            )
+            echo  Node.js installed successfully!
+        )
+
+        echo.
+        echo  =====================================================
+        echo   All tools installed! Please CLOSE this window and
+        echo   DOUBLE-CLICK the script again to continue setup.
+        echo  =====================================================
+        echo.
+        echo  (A restart is needed so your system recognizes the
+        echo   newly installed programs.)
+        echo.
+        pause
+        exit /b 0
+    ) else (
+        echo.
+        echo  [ERROR] Cannot continue without the required tools.
+        echo  Please install them manually and run this script again.
+        echo.
+        echo   Git:     https://git-scm.com/
+        echo   Python:  https://www.python.org/
+        echo   Node.js: https://nodejs.org/
+        echo.
+        pause
+        exit /b 1
+    )
+)
+
+echo.
+echo  All prerequisites are installed!
+echo.
+
+:: -----------------------------------------------
 :: 1. Check if the project is already downloaded
 :: -----------------------------------------------
 if not exist "%PROJECT_DIR%" (
@@ -25,7 +139,6 @@ if not exist "%PROJECT_DIR%" (
     if errorlevel 1 (
         echo.
         echo  [ERROR] Failed to clone repository.
-        echo  Make sure Git is installed: https://git-scm.com/
         pause
         exit /b 1
     )
@@ -116,7 +229,7 @@ if not exist "bot\node_modules" (
     echo  Bot dependencies already installed. Skipping.
 )
 echo  Starting Discord Bot...
-start "Discord Bot" cmd /c "title Discord Bot & cd bot & npm start"
+start "Discord Bot" cmd /k "title Discord Bot & cd bot & npm start"
 
 :: -----------------------------------------------
 :: 7. Discord Bot Invitation
