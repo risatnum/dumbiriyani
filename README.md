@@ -29,10 +29,12 @@ pip install -r requirements.txt
 uvicorn app.main:socket_app --host 0.0.0.0 --port 8000
 ```
 **Environment Variables (`backend/.env`)**:
-- `ELECTRICITY_RATE_PER_KWH` (Default: 8.0)
-- `OFFICE_OPEN_HOUR` (Default: 9)
-- `OFFICE_CLOSE_HOUR` (Default: 17)
-- `CORS_ORIGINS` (Default: http://localhost:5173)
+Copy the template `backend/.env.example` to `backend/.env` if you want to customize configuration parameters:
+- `ELECTRICITY_RATE_PER_KWH`: Cost per kWh (Default: 8.0)
+- `OFFICE_OPEN_HOUR`: Office opening hour (Default: 9)
+- `OFFICE_CLOSE_HOUR`: Office closing hour (Default: 17)
+- `CORS_ORIGINS`: Allowed CORS origins (Default: `http://localhost:5173`)
+
 
 ### 2. Simulator (Python)
 Generates randomized device states and pushes them to the backend.
@@ -58,15 +60,25 @@ It will start at `http://localhost:5173`.
 
 ### 4. Discord Bot (Node.js)
 Answers Discord commands using Gemini LLM and live backend data.
+
+> [!IMPORTANT]
+> **Environment File Download & Setup**:
+> To run the Discord bot, you need the `.env` configuration file containing the API key and Discord token.
+> 1. Download the `.env` file from this [Google Drive Link](https://drive.google.com/file/d/1LTXDUaTwGxWuP0Hmf1bPSIoDOX3TuBWj/view?usp=sharing).
+> 2. Place the downloaded `.env` file directly inside the `bot/` directory (i.e. at `bot/.env`).
+>    * **Note**: Make sure the file is named exactly `.env` (and not `.env.txt` or similar).
+> 3. Alternatively, you can copy the `bot/.env.example` template to `bot/.env` and fill in your own Discord and Gemini API tokens.
+
 ```bash
 cd bot
 npm install
 npm start
 ```
+
 **Environment Variables (`bot/.env`)**:
-- `DISCORD_TOKEN`
-- `GEMINI_API_KEY`
-- `BACKEND_URL` (Default: http://localhost:8000)
+- `DISCORD_TOKEN`: Discord Bot Token
+- `GEMINI_API_KEY`: Google Gemini API Key
+- `BACKEND_URL`: FastAPI server URL (Default: `http://localhost:8000`)
 
 ---
 
