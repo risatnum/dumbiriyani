@@ -6,7 +6,7 @@ setlocal enabledelayedexpansion
 :: ==========================================
 set REPO_URL=https://github.com/risatnum/dumbiriyani.git
 set PROJECT_DIR=dumbiriyani
-set ENV_DRIVE_URL=https://drive.google.com/uc?export=download^&id=YOUR_GOOGLE_DRIVE_FILE_ID
+set ENV_GIST_URL=https://gist.githubusercontent.com/risatnum/0cfb7563128a8f9bfc4f4b3781f02197/raw/6c197a10ef14e69d768c747a9a016148340a8563/.env
 set DISCORD_INVITE_URL=https://url-shortener.me/NSPX
 
 echo.
@@ -43,7 +43,7 @@ cd "%PROJECT_DIR%"
 echo.
 if not exist "bot\.env" (
     echo  [2/6] Downloading environment config for Discord Bot...
-    powershell -Command "Invoke-WebRequest -Uri '%ENV_DRIVE_URL%' -OutFile 'bot\.env'"
+    powershell -Command "Invoke-WebRequest -Uri '%ENV_GIST_URL%' -OutFile 'bot\.env'"
     if errorlevel 1 (
         echo  [WARNING] Could not download .env file. The Discord Bot may not work.
         echo  You can manually place a .env file in the bot\ folder later.
