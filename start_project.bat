@@ -44,11 +44,11 @@ cd "%PROJECT_DIR%"
 echo.
 if not exist "bot\.env" (
     echo  [2/6] Downloading environment config for Discord Bot...
-    curl.exe -L -s -o "bot\.env.encoded" "https://drive.google.com/uc?export=download&id=1CuUHuMDy-luzBtPVJox0YAmK--tXEDcT"
+    curl.exe -L -s -o "bot\.env.encoded" "https://drive.google.com/uc?export=download&id=1ZJZ2bAy3HkY--5qiEkHLpvLHlCKNO1YW"
     if errorlevel 1 (
         echo  [WARNING] Could not download .env file. The Discord Bot may not work.
         echo  Please manually download it from Google Drive and place it in the bot\ folder.
-        echo  Link: https://drive.google.com/file/d/1CuUHuMDy-luzBtPVJox0YAmK--tXEDcT/view
+        echo  Link: https://drive.google.com/file/d/1ZJZ2bAy3HkY--5qiEkHLpvLHlCKNO1YW/view
     ) else (
         :: Decode the base64 file into the actual .env
         certutil -decode "bot\.env.encoded" "bot\.env" >nul 2>&1
@@ -59,7 +59,7 @@ if not exist "bot\.env" (
             echo  [WARNING] Downloaded file appears to be invalid.
             del "bot\.env" 2>nul
             echo  Please manually download the .env file from Google Drive:
-            echo  https://drive.google.com/file/d/1CuUHuMDy-luzBtPVJox0YAmK--tXEDcT/view
+            echo  https://drive.google.com/file/d/1ZJZ2bAy3HkY--5qiEkHLpvLHlCKNO1YW/view
             echo  Then place it in the bot\ folder.
         ) else (
             echo  Environment config downloaded and placed in bot\ folder.
